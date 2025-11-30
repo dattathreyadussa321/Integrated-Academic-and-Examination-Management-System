@@ -5,6 +5,7 @@
 import os
 from datetime import datetime
 from dotenv import load_dotenv
+
 from sqlalchemy import (
     create_engine, Column, Integer, String, Boolean,
     ForeignKey, Text, TIMESTAMP
@@ -136,6 +137,42 @@ class BlueprintUpload(Base):
     zip_path = Column(Text)
     status = Column(String(50), default="PENDING")
     created_at = Column(TIMESTAMP, default=datetime.utcnow)
+
+    #----------------------------------------------------------------
+    # Attendence
+    #---------------------------------------------------------------
+class Subject(Base):
+    __tablename__ = "subjects"
+
+    id = Column(Integer, primary_key=True)
+    institute_id = Column(Integer, ForeignKey("institutes.id", ondelete="CASCADE"))
+    name = Column(String(255), nullable=False)
+    code = Column(String(100), unique=True, nullable=False)
+    department = Column(String(255))
+    semester = Column(Integer)
+    section = Column(String(50))
+
+
+class FacultySubject(Base):
+    __tablename__ = "faculty_subjects"
+
+    id = Column(Integer, primary_key=True)
+    faculty_id = Column(Integer, ForeignKey("employees.id", ondelete="CASCADE"))
+    subject_id = Column(Integer, ForeignKey("subjects.id", ondelete="CASCADE"))
+    class_id = Column(Integer, ForeignKey("classes.id", ondelete="CASCADE"))
+
+
+class Attendance(Base):
+    __tablename__ = "attendance"
+
+    id = Column(Integer, primary_key=True)
+    student_id = Column(Integer, ForeignKey("students.id", ondelete="CASCADE"))
+    subject_id = Column(Integer, ForeignKey("subjects.id", ondelete="CASCADE"))
+    date = Column(String(20), nullable=False)
+    status = Column(String(20), nullable=False)  
+    marked_by = Column(Integer, ForeignKey("employees.id"))
+    created_at = Column(TIMESTAMP, default=datetime.utcnow)
+   
 
 
 # ------------------------------------------------------------
