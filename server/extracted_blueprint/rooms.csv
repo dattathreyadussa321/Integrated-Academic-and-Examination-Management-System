@@ -1,0 +1,6 @@
+name,type,capacity,systems_count,has_projector
+Room-101,Classroom,60,0,Yes
+Lab-CS1,Computer Lab,40,40,Yes
+Seminar-Hall-A,Seminar Hall,120,0,Yes
+Room-204,Classroom,50,0,No
+Lab-EC2,Electronics Lab,35,20,No
